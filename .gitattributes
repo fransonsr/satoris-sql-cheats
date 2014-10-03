@@ -1,0 +1,9 @@
+# These files are text and should be normalized (convert crlf -> lf)
+*				text=auto eol=lf
+*.sql			text
+
+# Bash shell scripts that should always be lf
+*.sh			text eol=lf
+
+# Windows shell scripts that should not be normailized
+*.bat			text eol=crlf
