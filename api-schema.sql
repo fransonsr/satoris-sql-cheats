@@ -17,4 +17,14 @@ insert into user_roles (user_id, role_id)
 values (
   (select user_id from users where username = :userName),
   (select role_id from roles where name = :roleName)
-);  
+);
+
+-- list roles --
+select name from roles
+order by name;
+
+-- roles with permission
+select r.name from roles r, role_permissions rp
+where r.role_id = rp.role_id
+and rp.permission = :permission
+order by r.name;
