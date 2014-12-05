@@ -5,10 +5,28 @@ and ur.role_id = r.role_id
 and r.name = :roleName
 order by u.username;
 
--- user's role --
+-- user's user roles --
 select r.name, :userName from roles r, user_roles ur, users u
 where r.role_id = ur.role_id
 and ur.user_id = u.user_id
+and u.username = :userName
+order by r.name;
+
+-- user's group roles --
+select r.name, :userName as username, g.name as groupname
+from roles r, users u, group_roles gr, groups g
+where r.role_id = gr.role_id
+and gr.group_id = g.group_id
+and gr.user_id = u.user_id
+and u.username = :userName
+order by r.name;
+
+-- user's project roles --
+select r.name, :userName as username, p.name as projectname
+from roles r, users u, project_roles pr, projects p
+where r.role_id = pr.role_id
+and pr.project_id = p.project_id
+and pr.user_id = u.user_id
 and u.username = :userName
 order by r.name;
 
@@ -28,3 +46,10 @@ select r.name from roles r, role_permissions rp
 where r.role_id = rp.role_id
 and rp.permission = :permission
 order by r.name;
+
+-- users with user role count
+select u.username, count(1) as role_count
+from users u, user_roles ur
+where u.user_id = ur.user_id
+group by ur.user_id
+order by role_count desc;
