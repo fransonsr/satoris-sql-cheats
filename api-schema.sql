@@ -47,6 +47,12 @@ where r.role_id = rp.role_id
 and rp.permission = :permission
 order by r.name;
 
+-- permissions for role
+select rp.permission from role_permissions rp, roles r
+where r.role_id = rp.role_id
+and r.name = :roleName
+order by rp.permission;
+
 -- users with user role count
 select u.username, count(1) as role_count
 from users u, user_roles ur
