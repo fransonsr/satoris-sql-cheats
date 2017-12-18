@@ -59,3 +59,14 @@ from users u, user_roles ur
 where u.user_id = ur.user_id
 group by ur.user_id
 order by role_count desc;
+
+-- users created by date
+select date(creationTime) as CREATED, count(1) as COUNT from users
+group by date(creationTime)
+order by date(creationTime);
+
+-- batch resource metadata for batch UUID --
+select resources.resource_id, resources.creationTime, resources.lastUpdateTime, resources.encoding, resources.mimeType, resources.name, resources.type, uuid_from_bin(batches.uuid) as uuid, resources.version from resources
+join batches on resources.entity_id = batches.batch_id
+where uuid_from_bin(batches.uuid) = :batch_uuid
+and resources.type = 'BATCH';
